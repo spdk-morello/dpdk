@@ -108,6 +108,41 @@ implementer_arm = {
     'part_number_config': part_number_config_arm
 }
 
+implementer_arm_research = {
+    'description': 'Arm University / Research',
+    'flags': [
+        ['RTE_MACHINE', '"neoverse-n1"'],
+        ['RTE_ARCH_ARM_MORELLO', true],
+        ['RTE_ARCH_ARM_MORELLO_HACK', true],
+        ['RTE_USE_C11_MEM_MODEL', true],
+        ['RTE_CACHE_LINE_SIZE', 64],
+        ['RTE_MAX_LCORE', 4],
+        ['RTE_MAX_NUMA_NODES', 2],
+        ['RTE_MAX_MEM_MB', 1048576]
+    ],
+    'part_number_config': {
+        '0x412': {
+            'march': 'armv8.2-a',
+            'march_features': ['crypto'],
+            'compiler_options':  ['-mcpu=neoverse-n1'],
+            'flags': [
+                ['RTE_ARM_FEATURE_ATOMICS', true],
+            ]
+        },
+        # PURECAP_HACK: Disable atomics to avoid error from __ATOMIC128_CAS_OP
+        '0x412_purecap': {
+            'march': 'morello',
+            'march_features': ['crypto'],
+            'compiler_options':  ['-mcpu=neoverse-n1', '-U__ARM_FEATURE_ATOMICS'],
+            'flags': [
+                ['RTE_ARCH_ARM_PURECAP', true],
+                ['RTE_ARCH_ARM_PURECAP_HACK', true],
+                ['RTE_ARM_FEATURE_ATOMICS', false],
+            ]
+        },
+    }
+}
+
 flags_part_number_thunderx = [
     ['RTE_MACHINE', '"thunderx"'],
     ['RTE_USE_C11_MEM_MODEL', false]
@@ -258,6 +293,7 @@ implementer_qualcomm = {
 ## Arm implementers (ID from MIDR in Arm Architecture Reference Manual)
 implementers = {
     'generic': implementer_generic,
+    '0x3f': implementer_arm_research,
     '0x41': implementer_arm,
     '0x43': implementer_cavium,
     '0x48': implementer_hisilicon,
@@ -545,6 +581,21 @@ else
             detect_vendor = find_program(join_paths(meson.current_source_dir(),
                                                     'armv8_machine.py'))
             cmd = run_command(detect_vendor.path(), check: false)
+            if cmd.returncode() != 0
+                midr_el1_code = '''
+#include<stdio.h>
+int main(int argc, char **argv) {
+    unsigned long id;
+    __asm__("mrs %0, MIDR_EL1" : "=r"(id));
+    printf("%#lx %#lx %#lx %#lx %#lx\n", (id >> 24) & 0xff,
+        (id >> 20) & 0xf, (id >> 16) & 0xf, (id >> 4) & 0xfff, id & 0xf);
+    return 0;
+}'''
+                result = cc.run(midr_el1_code, name : 'armv8_midr_el1')
+                if result.compiled() == true
+                    cmd = result
+                endif
+            endif
             if cmd.returncode() == 0
                 cmd_output = cmd.stdout().to_lower().strip().split(' ')
                 implementer_id = cmd_output[0]
@@ -594,6 +645,11 @@ if update_flags
     message('Arm part number: ' + part_number)
 
     part_number_config = implementer_config['part_number_config']
+    if part_number_config.has_key(part_number + '_purecap')
+        if cc.compiles('_Static_assert(sizeof(void *) > 8, "purecap");', name: 'purecap')
+            part_number += '_purecap'
+        endif
+    endif
     if part_number_config.has_key(part_number)
         # use the specified part_number machine args if found
         part_number_config = part_number_config[part_number]
@@ -614,7 +670,7 @@ if update_flags
     candidate_march = ''
     if part_number_config.has_key('march')
         supported_marchs = ['armv8.6-a', 'armv8.5-a', 'armv8.4-a', 'armv8.3-a',
-                            'armv8.2-a', 'armv8.1-a', 'armv8-a']
+                            'armv8.2-a', 'armv8.1-a', 'armv8-a', 'morello' ]
         check_compiler_support = false
         foreach supported_march: supported_marchs
             if supported_march == part_number_config['march']
