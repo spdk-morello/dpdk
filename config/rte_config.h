@@ -37,7 +37,9 @@
 #define RTE_MAX_MEMZONE 2560
 #define RTE_MAX_TAILQ 32
 #define RTE_LOG_DP_LEVEL RTE_LOG_INFO
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 #define RTE_BACKTRACE 1
+#endif
 #define RTE_MAX_VFIO_CONTAINERS 64
 
 /* bsd module defines */
