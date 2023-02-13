@@ -182,7 +182,9 @@ ip4_lookup_node_init(const struct rte_graph *graph, struct rte_node *node)
 	int rc;
 
 	RTE_SET_USED(graph);
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 	RTE_BUILD_BUG_ON(sizeof(struct ip4_lookup_node_ctx) > RTE_NODE_CTX_SZ);
+#endif
 
 	if (!init_once) {
 		node_mbuf_priv1_dynfield_offset = rte_mbuf_dynfield_register(

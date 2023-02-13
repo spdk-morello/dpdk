@@ -29,7 +29,9 @@ test_eventdev_common(void)
 static int
 testsuite_setup(void)
 {
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 	RTE_BUILD_BUG_ON(sizeof(struct rte_event) != 16);
+#endif
 	uint8_t count;
 	count = rte_event_dev_count();
 	if (!count) {

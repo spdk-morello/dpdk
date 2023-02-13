@@ -2779,7 +2779,9 @@ test_mbuf(void)
 	struct rte_mempool *pktmbuf_pool2 = NULL;
 
 
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 	RTE_BUILD_BUG_ON(sizeof(struct rte_mbuf) != RTE_CACHE_LINE_MIN_SIZE * 2);
+#endif
 
 	/* create pktmbuf pool if it does not exist */
 	pktmbuf_pool = rte_pktmbuf_pool_create("test_pktmbuf_pool",

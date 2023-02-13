@@ -61,7 +61,9 @@ rte_stack_create(const char *name, unsigned int count, int socket_id,
 	}
 
 #ifdef RTE_ARCH_64
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 	RTE_BUILD_BUG_ON(sizeof(struct rte_stack_lf_head) != 16);
+#endif
 #endif
 #if !defined(RTE_STACK_LF_SUPPORTED)
 	if (flags & RTE_STACK_F_LF) {

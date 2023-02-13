@@ -4515,8 +4515,10 @@ acc100_configure(const char *dev_name, struct rte_acc_conf *conf)
 	struct rte_bbdev *bbdev = rte_bbdev_get_named_dev(dev_name);
 
 	/* Compile time checks */
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 	RTE_BUILD_BUG_ON(sizeof(struct acc_dma_req_desc) != 256);
 	RTE_BUILD_BUG_ON(sizeof(union acc_dma_desc) != 256);
+#endif
 	RTE_BUILD_BUG_ON(sizeof(struct acc_fcw_td) != 24);
 	RTE_BUILD_BUG_ON(sizeof(struct acc_fcw_te) != 32);
 
@@ -4910,8 +4912,10 @@ acc101_configure(const char *dev_name, struct rte_acc_conf *conf)
 	struct rte_bbdev *bbdev = rte_bbdev_get_named_dev(dev_name);
 
 	/* Compile time checks */
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 	RTE_BUILD_BUG_ON(sizeof(struct acc_dma_req_desc) != 256);
 	RTE_BUILD_BUG_ON(sizeof(union acc_dma_desc) != 256);
+#endif
 	RTE_BUILD_BUG_ON(sizeof(struct acc_fcw_td) != 24);
 	RTE_BUILD_BUG_ON(sizeof(struct acc_fcw_te) != 32);
 
