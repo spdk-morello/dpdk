@@ -18,7 +18,13 @@ __rte_arm64_cntfrq(void)
 {
 	uint64_t freq;
 
+#ifdef RTE_ARCH_ARM_MORELLO_HACK
+	// Hardcode value because access to cntfrq_el0
+	// is privileged on Arm Morello.
+	freq = 50000000;
+#else
 	asm volatile("mrs %0, cntfrq_el0" : "=r" (freq));
+#endif
 	return freq;
 }
 
