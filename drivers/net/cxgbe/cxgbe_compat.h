@@ -71,7 +71,10 @@ extern int cxgbe_mbox_logtype;
 #define L1_CACHE_SHIFT  6
 #define L1_CACHE_BYTES  BIT(L1_CACHE_SHIFT)
 
+#ifndef PAGE_SHIFT
 #define PAGE_SHIFT  12
+#endif
+
 #define CXGBE_ALIGN(x, a) (((x) + (a) - 1) & ~((a) - 1))
 #define PTR_ALIGN(p, a) ((typeof(p))CXGBE_ALIGN((unsigned long)(p), (a)))
 
