@@ -86,7 +86,7 @@ sudo kldload contigmem nic_uio
 To load them automatically after every boot, add the following line to /etc/rc.conf:
 
 ~~~{.sh}
-kld_load="contigmem nic_uio"
+kld_list="contigmem nic_uio"
 ~~~
 
 ## Hybrid Build
