@@ -7,6 +7,7 @@
 #include <sys/event.h>
 #include <sys/queue.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #include <rte_errno.h>
 #include <rte_lcore.h>
