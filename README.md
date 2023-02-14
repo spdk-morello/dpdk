@@ -73,14 +73,14 @@ MACHINE_ARCH=aarch64 ZFSTOP=/usr/src/sys/contrib/subrepo-openzfs ninja -j4 -C bu
 The modules can be installed in /boot/modules using:
 
 ~~~{.sh}
-sudo cp build-kern/kernel/contigmem/*.so /boot/modules
+sudo cp build-kern/kernel/freebsd/*.ko /boot/modules
 sudo kldxref /boot/modules
 ~~~
 
 The kernel modules need to be loaded with:
 
 ~~~{.sh}
-kldload contigmem nic_uio
+sudo kldload contigmem nic_uio
 ~~~
 
 To load them automatically after every boot, add the following line to /etc/rc.conf:
