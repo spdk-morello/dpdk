@@ -487,7 +487,7 @@ int rte_pci_write_config(const struct rte_pci_device *dev,
 }
 
 int
-rte_pci_ioport_map(struct rte_pci_device *dev, int bar,
+rte_pci_ioport_map(struct rte_pci_device *dev, int bar __rte_unused,
 		struct rte_pci_ioport *p)
 {
 	int ret;
