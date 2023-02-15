@@ -14,7 +14,7 @@ visudo
 To perform a native build on CheriBSD, the following packages are required:
 
 ~~~{.sh}
-sudo pkg64 install meson llvm llvm-base py39-pip libelf gdb-cheri
+sudo pkg64 install meson ninja python llvm llvm-base py39-pip libelf gdb-cheri
 sudo pkg64c install git libelf
 pip install pyelftools
 ~~~
