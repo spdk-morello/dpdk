@@ -36,7 +36,7 @@ To build the DPDK kernel modules, the source for CheriBSD needs to be installed 
 sudo git clone https://github.com/CTSRD-CHERI/cheribsd /usr/src
 ~~~
 
-With CheriBSD 22.12, kernel modules fail to build with ' is ZFSTOP set?'.
+With CheriBSD 22.12, kernel modules fail to build with 'is ZFSTOP set?'.
 
 As a temporary workaround, run the following after installing the source:
 
