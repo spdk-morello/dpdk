@@ -141,8 +141,10 @@ contigmem_load()
 			goto error;
 		}
 
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 		printf("%2u: virt=%p phys=%p\n", i, addr,
 			(void *)pmap_kextract((vm_offset_t)addr));
+#endif
 
 		mtx_init(&contigmem_buffers[i].mtx, "contigmem", NULL, MTX_DEF);
 		contigmem_buffers[i].addr = addr;

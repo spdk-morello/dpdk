@@ -13,6 +13,15 @@ kmod_cflags = ['-I' + dpdk_build_root,
         '-I' + join_paths(dpdk_source_root, 'config'),
         '-include rte_config.h']
 
+kmod_arch = 'MACHINE_ARCH_NULL='
+if dpdk_conf.has('RTE_ARCH_ARM_MORELLO')
+    if dpdk_conf.has('RTE_ARCH_ARM_PURECAP')
+        kmod_arch = 'MACHINE_ARCH=aarch64c'
+    else
+        kmod_arch = 'MACHINE_ARCH=aarch64'
+    endif
+endif
+
 # to avoid warnings due to race conditions with creating the dev_if.h, etc.
 # files, serialize the kernel module builds. Each module will depend on
 # previous ones
@@ -27,7 +36,8 @@ foreach k:kmods
                 'KMOD_SRC=@INPUT1@',
                 'KMOD=' + k,
                 'KMOD_CFLAGS=' + ' '.join(kmod_cflags),
-                'CC=clang'],
+                'CC=clang',
+                kmod_arch],
             depends: built_kmods, # make each module depend on prev
             build_by_default: get_option('enable_kmods'),
             install: get_option('enable_kmods'),
