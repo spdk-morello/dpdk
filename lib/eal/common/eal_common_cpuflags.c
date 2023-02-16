@@ -26,6 +26,7 @@ rte_cpu_is_supported(void)
 				ret);
 			return 0;
 		}
+#ifndef __FreeBSD__
 		if (!ret) {
 			fprintf(stderr,
 			        "ERROR: This system does not support \"%s\".\n"
@@ -33,6 +34,7 @@ rte_cpu_is_supported(void)
 			        rte_cpu_get_flag_name(compile_time_flags[i]));
 			return 0;
 		}
+#endif
 	}
 
 	return 1;
