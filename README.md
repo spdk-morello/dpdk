@@ -74,6 +74,7 @@ kld_list="contigmem nic_uio"
 To create a hybrid build:
 
 ~~~{.sh}
+export PKG_CONFIG_PATH=`pwd`/config/hybrid
 CC=clang meson -Dexamples=helloworld -Denable_kmods=true build-hybrid
 ninja -j4 -C build-hybrid
 ~~~
@@ -81,15 +82,17 @@ ninja -j4 -C build-hybrid
 For a hybrid debug build:
 
 ~~~{.sh}
+export PKG_CONFIG_PATH=`pwd`/config/hybrid
 CC=clang meson -Dexamples=helloworld -Denable_kmods=true --buildtype=debug build-hybrid-debug
 ninja -j4 -C build-hybrid-debug
 ~~~
 
-## PureCap Build
+## Purecap Build
 
 To create a purecap build:
 
 ~~~{.sh}
+unset PKG_CONFIG_PATH
 CC=cc meson -Dexamples=helloworld -Denable_kmods=true build-pure
 ninja -j4 -C build-pure
 ~~~
@@ -97,6 +100,7 @@ ninja -j4 -C build-pure
 For a purecap debug build:
 
 ~~~{.sh}
+unset PKG_CONFIG_PATH
 CC=cc meson -Dexamples=helloworld -Denable_kmods=true --buildtype=debug build-pure-debug
 ninja -j4 -C build-pure-debug
 ~~~
