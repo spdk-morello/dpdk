@@ -503,7 +503,7 @@ print_result(const union rte_ipsec_sad_key *key, void *res)
 	dip = (config.ipv6 == 0) ? &v4->dip : (const void *)v6->dip;
 	sip = (config.ipv6 == 0) ? &v4->sip : (const void *)v6->sip;
 	printf("\n\tpoints to RULE ID %zu ",
-		RTE_PTR_DIFF(res, rules_tbl)/sizeof(struct rule));
+		(size_t)(RTE_PTR_DIFF(res, rules_tbl)/sizeof(struct rule)));
 	print_tuple(af, spi, dip, sip);
 	printf(" %s\n", rule_type);
 }
