@@ -78,7 +78,7 @@ typedef uint64_t  dma_addr_t;
 #undef  ALIGN
 #define ALIGN(x, a)  RTE_ALIGN(x, a)
 
-#define PTR_ALIGN(p, a)		((typeof(p))ALIGN((unsigned long)(p), (a)))
+#define PTR_ALIGN(p, a)		((typeof(p))RTE_PTR_ALIGN((p), (a)))
 
 /* Reported driver name. */
 #define HINIC_DRIVER_NAME "net_hinic"
