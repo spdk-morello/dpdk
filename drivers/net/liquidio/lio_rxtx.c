@@ -1424,7 +1424,7 @@ lio_delete_sglist(struct lio_instr_queue *txq)
 		if (g) {
 			if (g->sg)
 				rte_free(
-				    (void *)((unsigned long)g->sg - g->adjust));
+				    (void *)((uintptr_t)g->sg - g->adjust));
 			rte_free(g);
 		}
 	} while (g);
@@ -1472,7 +1472,7 @@ lio_setup_sglists(struct lio_device *lio_dev, int iq_no,
 		if (((unsigned long)g->sg) & 7) {
 			g->adjust = 8 - (((unsigned long)g->sg) & 7);
 			g->sg =
-			    (struct lio_sg_entry *)((unsigned long)g->sg +
+			    (struct lio_sg_entry *)((uintptr_t)g->sg +
 						       g->adjust);
 		}
 
