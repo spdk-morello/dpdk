@@ -92,7 +92,7 @@ ninja -j4 -C build-hybrid-debug
 To create a purecap build:
 
 ~~~{.sh}
-unset PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=`pwd`/config/purecap
 CC=cc meson -Dexamples=helloworld -Denable_kmods=true build-pure
 ninja -j4 -C build-pure
 ~~~
@@ -100,7 +100,7 @@ ninja -j4 -C build-pure
 For a purecap debug build:
 
 ~~~{.sh}
-unset PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=`pwd`/config/purecap
 CC=cc meson -Dexamples=helloworld -Denable_kmods=true --buildtype=debug build-pure-debug
 ninja -j4 -C build-pure-debug
 ~~~
