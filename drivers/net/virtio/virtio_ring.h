@@ -157,7 +157,7 @@ vring_init_split(struct vring *vr, uint8_t *p, unsigned long align,
 	vr->avail = (struct vring_avail *) (p +
 		num * sizeof(struct vring_desc));
 	vr->used = (void *)
-		RTE_ALIGN_CEIL((uintptr_t)(&vr->avail->ring[num]), align);
+		RTE_PTR_ALIGN_CEIL((uintptr_t)(&vr->avail->ring[num]), align);
 }
 
 static inline void
@@ -169,7 +169,7 @@ vring_init_packed(struct vring_packed *vr, uint8_t *p, unsigned long align,
 	vr->driver = (struct vring_packed_desc_event *)(p +
 			vr->num * sizeof(struct vring_packed_desc));
 	vr->device = (struct vring_packed_desc_event *)
-		RTE_ALIGN_CEIL(((uintptr_t)vr->driver +
+		RTE_PTR_ALIGN_CEIL(((uintptr_t)vr->driver +
 				sizeof(struct vring_packed_desc_event)), align);
 }
 
