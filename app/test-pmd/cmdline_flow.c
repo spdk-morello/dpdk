@@ -6657,7 +6657,7 @@ parse_ia(struct context *ctx, const struct token *token,
 	case INDIRECT_ACTION_CREATE:
 	case INDIRECT_ACTION_UPDATE:
 		out->args.vc.actions =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					       sizeof(double));
 		out->args.vc.attr.group = UINT32_MAX;
 		/* fallthrough */
@@ -6707,7 +6707,7 @@ parse_ia_destroy(struct context *ctx, const struct token *token,
 		ctx->object = out;
 		ctx->objmask = NULL;
 		out->args.ia_destroy.action_id =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					       sizeof(double));
 		return len;
 	}
@@ -6749,7 +6749,7 @@ parse_qia(struct context *ctx, const struct token *token,
 	case QUEUE_INDIRECT_ACTION_CREATE:
 	case QUEUE_INDIRECT_ACTION_UPDATE:
 		out->args.vc.actions =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					       sizeof(double));
 		out->args.vc.attr.group = UINT32_MAX;
 		/* fallthrough */
@@ -6800,7 +6800,7 @@ parse_qia_destroy(struct context *ctx, const struct token *token,
 		ctx->object = out;
 		ctx->objmask = NULL;
 		out->args.ia_destroy.action_id =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					       sizeof(double));
 		return len;
 	}
@@ -6856,7 +6856,7 @@ parse_mp(struct context *ctx, const struct token *token,
 	switch (ctx->curr) {
 	case ACTION_POL_G:
 		out->args.vc.actions =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					sizeof(double));
 		out->command = ctx->curr;
 		ctx->objdata = 0;
@@ -6932,7 +6932,7 @@ parse_vc(struct context *ctx, const struct token *token,
 		return len;
 	case ITEM_PATTERN:
 		out->args.vc.pattern =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					       sizeof(double));
 		ctx->object = out->args.vc.pattern;
 		ctx->objmask = NULL;
@@ -6947,7 +6947,7 @@ parse_vc(struct context *ctx, const struct token *token,
 		break;
 	case ACTIONS:
 		out->args.vc.actions =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)
 					       (out->args.vc.pattern +
 						out->args.vc.pattern_n),
 					       sizeof(double));
@@ -6965,7 +6965,7 @@ parse_vc(struct context *ctx, const struct token *token,
 			out->args.vc.pattern + out->args.vc.pattern_n;
 
 		data_size = priv->size * 3; /* spec, last, mask */
-		data = (void *)RTE_ALIGN_FLOOR((uintptr_t)
+		data = (void *)RTE_PTR_ALIGN_FLOOR((uintptr_t)
 					       (out->args.vc.data - data_size),
 					       sizeof(double));
 		if ((uint8_t *)item + sizeof(*item) > data)
@@ -6982,7 +6982,7 @@ parse_vc(struct context *ctx, const struct token *token,
 			out->args.vc.actions + out->args.vc.actions_n;
 
 		data_size = priv->size; /* configuration */
-		data = (void *)RTE_ALIGN_FLOOR((uintptr_t)
+		data = (void *)RTE_PTR_ALIGN_FLOOR((uintptr_t)
 					       (out->args.vc.data - data_size),
 					       sizeof(double));
 		if ((uint8_t *)action + sizeof(*action) > data)
@@ -8537,7 +8537,7 @@ parse_destroy(struct context *ctx, const struct token *token,
 		ctx->object = out;
 		ctx->objmask = NULL;
 		out->args.destroy.rule =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					       sizeof(double));
 		return len;
 	}
@@ -8702,7 +8702,7 @@ parse_list(struct context *ctx, const struct token *token,
 		ctx->object = out;
 		ctx->objmask = NULL;
 		out->args.list.group =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					       sizeof(double));
 		return len;
 	}
@@ -8828,7 +8828,7 @@ parse_template(struct context *ctx, const struct token *token,
 	switch (ctx->curr) {
 	case PATTERN_TEMPLATE_CREATE:
 		out->args.vc.pattern =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					       sizeof(double));
 		out->args.vc.pat_templ_id = UINT32_MAX;
 		out->command = ctx->curr;
@@ -8854,14 +8854,14 @@ parse_template(struct context *ctx, const struct token *token,
 		return len;
 	case ACTIONS_TEMPLATE_SPEC:
 		out->args.vc.actions =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					       sizeof(double));
 		ctx->object = out->args.vc.actions;
 		ctx->objmask = NULL;
 		return len;
 	case ACTIONS_TEMPLATE_MASK:
 		out->args.vc.masks =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)
 					       (out->args.vc.actions +
 						out->args.vc.actions_n),
 					       sizeof(double));
@@ -8910,7 +8910,7 @@ parse_template_destroy(struct context *ctx, const struct token *token,
 		ctx->object = out;
 		ctx->objmask = NULL;
 		out->args.templ_destroy.template_id =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					       sizeof(double));
 		return len;
 	}
@@ -8960,7 +8960,7 @@ parse_table(struct context *ctx, const struct token *token,
 		return len;
 	case TABLE_PATTERN_TEMPLATE:
 		out->args.table.pat_templ_id =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					       sizeof(double));
 		template_id = out->args.table.pat_templ_id
 				+ out->args.table.pat_templ_id_n++;
@@ -8972,7 +8972,7 @@ parse_table(struct context *ctx, const struct token *token,
 		return len;
 	case TABLE_ACTIONS_TEMPLATE:
 		out->args.table.act_templ_id =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)
 					       (out->args.table.pat_templ_id +
 						out->args.table.pat_templ_id_n),
 					       sizeof(double));
@@ -9023,7 +9023,7 @@ parse_table_destroy(struct context *ctx, const struct token *token,
 		ctx->object = out;
 		ctx->objmask = NULL;
 		out->args.table_destroy.table_id =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					       sizeof(double));
 		return len;
 	}
@@ -9077,14 +9077,14 @@ parse_qo(struct context *ctx, const struct token *token,
 		return len;
 	case ITEM_PATTERN:
 		out->args.vc.pattern =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					       sizeof(double));
 		ctx->object = out->args.vc.pattern;
 		ctx->objmask = NULL;
 		return len;
 	case ACTIONS:
 		out->args.vc.actions =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)
 					       (out->args.vc.pattern +
 						out->args.vc.pattern_n),
 					       sizeof(double));
@@ -9121,7 +9121,7 @@ parse_qo_destroy(struct context *ctx, const struct token *token,
 		ctx->object = out;
 		ctx->objmask = NULL;
 		out->args.destroy.rule =
-			(void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+			(void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 					       sizeof(double));
 		return len;
 	}
@@ -9890,7 +9890,7 @@ parse_set_raw_encap_decap(struct context *ctx, const struct token *token,
 		return -1;
 	out->command = ctx->curr;
 	/* For encap/decap we need is pattern */
-	out->args.vc.pattern = (void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+	out->args.vc.pattern = (void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 						       sizeof(double));
 	return len;
 }
@@ -9919,7 +9919,7 @@ parse_set_sample_action(struct context *ctx, const struct token *token,
 		return -1;
 	out->command = ctx->curr;
 	/* For sampler we need is actions */
-	out->args.vc.actions = (void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+	out->args.vc.actions = (void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 						       sizeof(double));
 	return len;
 }
@@ -9957,7 +9957,7 @@ parse_set_init(struct context *ctx, const struct token *token,
 			return -1;
 		out->command = ctx->curr;
 		out->args.vc.data = (uint8_t *)out + size;
-		ctx->object  = (void *)RTE_ALIGN_CEIL((uintptr_t)(out + 1),
+		ctx->object  = (void *)RTE_PTR_ALIGN_CEIL((uintptr_t)(out + 1),
 						       sizeof(double));
 	}
 	return len;
