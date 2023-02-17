@@ -519,12 +519,12 @@ ntb_queue_init(struct rte_rawdev *dev, uint16_t qp_id)
 	/* Put queue info into the start of shared memory. */
 	hdr_offset = hw->hdr_size_per_queue * qp_id;
 	local_hdr = (volatile struct ntb_header *)
-		    ((size_t)hw->mz[0]->addr + hdr_offset);
+		    ((uintptr_t)hw->mz[0]->addr + hdr_offset);
 	bar_addr = (*hw->ntb_ops->get_peer_mw_addr)(dev, 0);
 	if (bar_addr == NULL)
 		return -EINVAL;
 	remote_hdr = (struct ntb_header *)
-		     ((size_t)bar_addr + hdr_offset);
+		     ((uintptr_t)bar_addr + hdr_offset);
 
 	/* rxq init. */
 	rxq->rx_desc_ring = (struct ntb_desc *)
