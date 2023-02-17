@@ -67,7 +67,7 @@ bnx2x_add_tlv(__rte_unused struct bnx2x_softc *sc, void *tlvs_list,
 	      uint16_t offset, uint16_t type, uint16_t length)
 {
 	struct channel_tlv *tl = (struct channel_tlv *)
-					((unsigned long)tlvs_list + offset);
+					((uintptr_t)tlvs_list + offset);
 
 	tl->type = type;
 	tl->length = length;
