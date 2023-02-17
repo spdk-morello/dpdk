@@ -649,11 +649,11 @@ ionic_qcq_alloc(struct ionic_lif *lif,
 	q_base = new->base;
 	q_base_pa = new->base_pa;
 
-	cq_base = (void *)RTE_ALIGN((uintptr_t)q_base + q_size, page_size);
+	cq_base = (void *)RTE_PTR_ALIGN((uintptr_t)q_base + q_size, page_size);
 	cq_base_pa = RTE_ALIGN(q_base_pa + q_size, page_size);
 
 	if (flags & IONIC_QCQ_F_SG) {
-		sg_base = (void *)RTE_ALIGN((uintptr_t)cq_base + cq_size,
+		sg_base = (void *)RTE_PTR_ALIGN((uintptr_t)cq_base + cq_size,
 				page_size);
 		sg_base_pa = RTE_ALIGN(cq_base_pa + cq_size, page_size);
 		ionic_q_sg_map(&new->q, sg_base, sg_base_pa);
