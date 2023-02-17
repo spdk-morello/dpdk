@@ -314,7 +314,7 @@ intel_ntb_ioremap(const struct rte_rawdev *dev, uint64_t addr)
 		if (addr >= hw->peer_mw_base[i] &&
 		    addr <= hw->peer_mw_base[i] + hw->mw_size[i]) {
 			base = intel_ntb_get_peer_mw_addr(dev, i);
-			mapped = (void *)(size_t)(addr - hw->peer_mw_base[i] +
+			mapped = (void *)(uintptr_t)(addr - hw->peer_mw_base[i] +
 				 (size_t)base);
 			break;
 		}
