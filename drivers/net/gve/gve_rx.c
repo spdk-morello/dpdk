@@ -106,8 +106,8 @@ gve_rx_burst(void *rx_queue, struct rte_mbuf **rx_pkts, uint16_t nb_pkts)
 		rxe = rxq->sw_ring[rx_id];
 		if (rxq->is_gqi_qpl) {
 			addr = (uint64_t)(rxq->qpl->mz->addr) + rx_id * PAGE_SIZE + GVE_RX_PAD;
-			rte_memcpy((void *)((size_t)rxe->buf_addr + rxe->data_off),
-				   (void *)(size_t)addr, len);
+			rte_memcpy((void *)((uintptr_t)rxe->buf_addr + rxe->data_off),
+				   (void *)(uintptr_t)addr, len);
 		}
 		rxe->pkt_len = len;
 		rxe->data_len = len;
