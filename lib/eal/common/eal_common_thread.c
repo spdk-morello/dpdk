@@ -9,6 +9,7 @@
 #include <sched.h>
 #include <assert.h>
 #include <string.h>
+#include <inttypes.h>
 
 #include <rte_eal_trace.h>
 #include <rte_errno.h>
@@ -176,7 +177,7 @@ eal_thread_loop(void *arg)
 	__rte_thread_init(lcore_id, &lcore_config[lcore_id].cpuset);
 
 	ret = eal_thread_dump_current_affinity(cpuset, sizeof(cpuset));
-	RTE_LOG(DEBUG, EAL, "lcore %u is ready (tid=%zx;cpuset=[%s%s])\n",
+	RTE_LOG(DEBUG, EAL, "lcore %u is ready (tid=%" PRIxPTR ";cpuset=[%s%s])\n",
 		lcore_id, (uintptr_t)pthread_self(), cpuset,
 		ret == 0 ? "" : "...");
 

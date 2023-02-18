@@ -20,6 +20,7 @@
 #include <sys/mman.h>
 #include <sys/queue.h>
 #include <sys/stat.h>
+#include <inttypes.h>
 
 #include <rte_common.h>
 #include <rte_debug.h>
@@ -791,7 +792,7 @@ rte_eal_init(int argc, char **argv)
 
 	ret = eal_thread_dump_current_affinity(cpuset, sizeof(cpuset));
 
-	RTE_LOG(DEBUG, EAL, "Main lcore %u is ready (tid=%zx;cpuset=[%s%s])\n",
+	RTE_LOG(DEBUG, EAL, "Main lcore %u is ready (tid=%" PRIxPTR ";cpuset=[%s%s])\n",
 		config->main_lcore, (uintptr_t)pthread_self(), cpuset,
 		ret == 0 ? "" : "...");
 
