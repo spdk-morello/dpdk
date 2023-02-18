@@ -154,7 +154,7 @@ static void *hinic_dma_mem_zalloc(struct hinic_hwdev *hwdev, size_t size,
 	rte_spinlock_lock(&hwdev->os_dep.dma_hash_lock);
 	rc = rte_hash_add_key_with_hash_data(hwdev->os_dep.dma_addr_hash,
 					     &iova, sig,
-					     (void *)(u64)mz);
+					     (void *)(uintptr_t)mz);
 	rte_spinlock_unlock(&hwdev->os_dep.dma_hash_lock);
 	if (rc) {
 		PMD_DRV_LOG(ERR, "Insert dma addr: %#" PRIxPTR " hash failed, error: %d, mz_name: %s",
