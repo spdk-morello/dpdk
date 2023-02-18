@@ -163,12 +163,20 @@ struct iavf_dma_mem {
 	u64 pa;
 	u32 size;
 	const void *zone;
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 } __rte_packed;
+#else
+};
+#endif
 
 struct iavf_virt_mem {
 	void *va;
 	u32 size;
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 } __rte_packed;
+#else
+};
+#endif
 
 /* SW spinlock */
 struct iavf_spinlock {
