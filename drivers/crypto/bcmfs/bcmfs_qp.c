@@ -273,7 +273,7 @@ bcmfs_qp_setup(struct bcmfs_qp **qp_addr,
 
 	/* Allocate memory for context */
 	qp->ctx_pool = rte_zmalloc("qp_ctx_pool",
-				   sizeof(unsigned long) *
+				   sizeof(uintptr_t) *
 				   nb_descriptors, 0);
 	if (qp->ctx_pool == NULL) {
 		BCMFS_LOG(ERR, "ctx allocation pool fails");

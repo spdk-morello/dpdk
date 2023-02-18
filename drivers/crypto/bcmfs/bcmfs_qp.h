@@ -90,7 +90,7 @@ struct bcmfs_qp {
 	/* Number of pending requests and enqueued to h/w queue */
 	uint16_t nb_pending_requests;
 	/* A pool which act as a hash for <request-ID and virt address> pair */
-	unsigned long *ctx_pool;
+	uintptr_t *ctx_pool;
 	/* virt address for mem allocated for bitmap */
 	void *ctx_bmp_mem;
 	/* Bitmap */

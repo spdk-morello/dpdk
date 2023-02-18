@@ -475,7 +475,7 @@ bcmfs4_enqueue_single_request_qp(struct bcmfs_qp *qp, void *op)
 
 	reqid = pos + __builtin_ctzll(slab);
 	rte_bitmap_clear(qp->ctx_bmp, reqid);
-	qp->ctx_pool[reqid] = (unsigned long)msg;
+	qp->ctx_pool[reqid] = (uintptr_t)msg;
 
 	/*
 	 * Number required descriptors = number of non-header descriptors +
@@ -527,7 +527,7 @@ bcmfs4_dequeue_qp(struct bcmfs_qp *qp, void **ops, uint16_t budget)
 	uint16_t reqid;
 	uint64_t desc;
 	uint16_t count = 0;
-	unsigned long context = 0;
+	uintptr_t context = 0;
 	struct bcmfs_queue *hwq = &qp->cmpl_q;
 	uint32_t cmpl_read_offset, cmpl_write_offset;
 
