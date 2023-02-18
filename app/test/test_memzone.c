@@ -791,7 +791,7 @@ check_memzone_bounded(const char *name, uint32_t len,  uint32_t align,
 		return -1;
 	}
 
-	if (((uintptr_t) mz->addr & ((uintptr_t)align - 1)) != 0) {
+	if (((uintptr_t) mz->addr & ((size_t)align - 1)) != 0) {
 		printf("%s(%s): invalid virtual addr alignment\n",
 			__func__, mz->name);
 		return -1;
