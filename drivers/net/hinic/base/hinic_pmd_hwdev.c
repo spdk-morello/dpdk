@@ -145,8 +145,8 @@ static void *hinic_dma_mem_zalloc(struct hinic_hwdev *hwdev, size_t size,
 	rc = rte_hash_lookup_with_hash(hwdev->os_dep.dma_addr_hash,
 				       &iova, sig);
 	if (rc >= 0) {
-		PMD_DRV_LOG(ERR, "Dma addr: %p already in hash table, error: %d, mz_name: %s",
-			(void *)iova, rc, z_name);
+		PMD_DRV_LOG(ERR, "Dma addr: %#" PRIxPTR " already in hash table, error: %d, mz_name: %s",
+			(uintptr_t)iova, rc, z_name);
 		goto phys_addr_hash_err;
 	}
 
@@ -157,8 +157,8 @@ static void *hinic_dma_mem_zalloc(struct hinic_hwdev *hwdev, size_t size,
 					     (void *)(u64)mz);
 	rte_spinlock_unlock(&hwdev->os_dep.dma_hash_lock);
 	if (rc) {
-		PMD_DRV_LOG(ERR, "Insert dma addr: %p hash failed, error: %d, mz_name: %s",
-			(void *)iova, rc, z_name);
+		PMD_DRV_LOG(ERR, "Insert dma addr: %#" PRIxPTR " hash failed, error: %d, mz_name: %s",
+			(uintptr_t)iova, rc, z_name);
 		goto phys_addr_hash_err;
 	}
 	*dma_handle = iova;
@@ -189,17 +189,17 @@ hinic_dma_mem_free(struct hinic_hwdev *hwdev, size_t size,
 			      HINIC_HASH_FUNC_INIT_VAL);
 	rc = rte_hash_lookup_with_hash_data(hash, &phys, sig, (void **)&mz);
 	if (rc < 0) {
-		PMD_DRV_LOG(ERR, "Can not find phys_addr: %p, error: %d",
-			(void *)phys, rc);
+		PMD_DRV_LOG(ERR, "Can not find phys_addr: %#" PRIxPTR ", error: %d",
+			(uintptr_t)phys, rc);
 		return;
 	}
 
 	if (virt != mz->addr || size > mz->len) {
 		PMD_DRV_LOG(ERR, "Match mz_info failed: "
-			"mz.name: %s, mz.phys: %p, mz.virt: %p, mz.len: %zu, "
-			"phys: %p, virt: %p, size: %zu",
-			mz->name, (void *)mz->iova, mz->addr, mz->len,
-			(void *)phys, virt, size);
+			"mz.name: %s, mz.phys: %#" PRIxPTR ", mz.virt: %p, mz.len: %zu, "
+			"phys: %#" PRIxPTR ", virt: %p, size: %zu",
+			mz->name, (uintptr_t)mz->iova, mz->addr, mz->len,
+			(uintptr_t)phys, virt, size);
 	}
 
 	rte_spinlock_lock(&hwdev->os_dep.dma_hash_lock);
@@ -253,17 +253,17 @@ void dma_free_coherent_volatile(void *hwdev, size_t size,
 			      HINIC_HASH_FUNC_INIT_VAL);
 	rc = rte_hash_lookup_with_hash_data(hash, &phys, sig, (void **)&mz);
 	if (rc < 0) {
-		PMD_DRV_LOG(ERR, "Can not find phys_addr: %p, error: %d",
-			(void *)phys, rc);
+		PMD_DRV_LOG(ERR, "Can not find phys_addr: %#" PRIxPTR ", error: %d",
+			(uintptr_t)phys, rc);
 		return;
 	}
 
 	if (virt != mz->addr || size > mz->len) {
 		PMD_DRV_LOG(ERR, "Match mz_info failed: "
-			"mz.name:%s, mz.phys:%p, mz.virt:%p, mz.len:%zu, "
-			"phys:%p, virt:%p, size:%zu",
-			mz->name, (void *)mz->iova, mz->addr, mz->len,
-			(void *)phys, virt, size);
+			"mz.name:%s, mz.phys:%#" PRIxPTR ", mz.virt:%p, mz.len:%zu, "
+			"phys:%#" PRIxPTR ", virt:%p, size:%zu",
+			mz->name, (uintptr_t)mz->iova, mz->addr, mz->len,
+			(uintptr_t)phys, virt, size);
 	}
 
 	rte_spinlock_lock(&dev->os_dep.dma_hash_lock);
@@ -367,8 +367,8 @@ void hinic_osdep_deinit(struct hinic_hwdev *hwdev)
 		while (rte_hash_iterate(paddr_hash, (const void **)&key_pa,
 					(void **)&data_mz, &iter) >= 0) {
 			if (data_mz) {
-				PMD_DRV_LOG(WARNING, "Free leaked dma_addr: %p, mz: %s",
-					(void *)key_pa, data_mz->name);
+				PMD_DRV_LOG(WARNING, "Free leaked dma_addr: %#" PRIxPTR ", mz: %s",
+					(uintptr_t)key_pa, data_mz->name);
 				(void)rte_memzone_free(data_mz);
 			}
 		}
