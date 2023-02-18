@@ -137,7 +137,11 @@ struct rte_l2tpv2_msg_with_all_options {
 	rte_be16_t ns;			/**< Ns(16) */
 	rte_be16_t nr;			/**< Nr(16) */
 	rte_be16_t offset_size;		/**< offset size(16) */
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+	rte_be64_t offset_padding;	/**< offset padding(variable length) */
+#else
 	uint8_t   *offset_padding;	/**< offset padding(variable length) */
+#endif
 } __rte_packed;
 
 /**
@@ -150,7 +154,11 @@ struct rte_l2tpv2_msg_without_length {
 	rte_be16_t ns;			/**< Ns(16) */
 	rte_be16_t nr;			/**< Nr(16) */
 	rte_be16_t offset_size;		/**< offset size(16) */
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+	rte_be64_t offset_padding;	/**< offset padding(variable length) */
+#else
 	uint8_t   *offset_padding;	/**< offset padding(variable length) */
+#endif
 } __rte_packed;
 
 /**
@@ -163,7 +171,11 @@ struct rte_l2tpv2_msg_without_ns_nr {
 	rte_be16_t tunnel_id;		/**< tunnel ID(16) */
 	rte_be16_t session_id;		/**< session ID(16) */
 	rte_be16_t offset_size;		/**< offset size(16) */
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+	rte_be64_t offset_padding;	/**< offset padding(variable length) */
+#else
 	uint8_t   *offset_padding;	/**< offset padding(variable length) */
+#endif
 };
 
 /**
@@ -185,7 +197,11 @@ struct rte_l2tpv2_msg_with_offset {
 	rte_be16_t tunnel_id;		/**< tunnel ID(16) */
 	rte_be16_t session_id;		/**< session ID(16) */
 	rte_be16_t offset_size;		/**< offset size(16) */
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+	rte_be64_t offset_padding;	/**< offset padding(variable length) */
+#else
 	uint8_t   *offset_padding;	/**< offset padding(variable length) */
+#endif
 } __rte_packed;
 
 /**
