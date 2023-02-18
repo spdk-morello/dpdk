@@ -182,7 +182,11 @@ struct i40e_dma_mem {
 	u64 pa;
 	u32 size;
 	const void *zone;
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 } __rte_packed;
+#else
+};
+#endif
 
 #define i40e_allocate_dma_mem(h, m, unused, s, a) \
 			i40e_allocate_dma_mem_d(h, m, s, a)
@@ -191,7 +195,11 @@ struct i40e_dma_mem {
 struct i40e_virt_mem {
 	void *va;
 	u32 size;
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 } __rte_packed;
+#else
+};
+#endif
 
 #define i40e_allocate_virt_mem(h, m, s) i40e_allocate_virt_mem_d(h, m, s)
 #define i40e_free_virt_mem(h, m) i40e_free_virt_mem_d(h, m)
