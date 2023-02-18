@@ -15,22 +15,38 @@ extern "C" {
 
 static inline void rte_prefetch0(const volatile void *p)
 {
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+	asm volatile ("PRFM PLDL1KEEP, [%w0]" : : "r" (p));
+#else
 	asm volatile ("PRFM PLDL1KEEP, [%0]" : : "r" (p));
+#endif
 }
 
 static inline void rte_prefetch1(const volatile void *p)
 {
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+	asm volatile ("PRFM PLDL2KEEP, [%w0]" : : "r" (p));
+#else
 	asm volatile ("PRFM PLDL2KEEP, [%0]" : : "r" (p));
+#endif
 }
 
 static inline void rte_prefetch2(const volatile void *p)
 {
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+	asm volatile ("PRFM PLDL3KEEP, [%w0]" : : "r" (p));
+#else
 	asm volatile ("PRFM PLDL3KEEP, [%0]" : : "r" (p));
+#endif
 }
 
 static inline void rte_prefetch_non_temporal(const volatile void *p)
 {
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+	asm volatile ("PRFM PLDL1STRM, [%w0]" : : "r" (p));
+#else
 	asm volatile ("PRFM PLDL1STRM, [%0]" : : "r" (p));
+#endif
 }
 
 __rte_experimental
