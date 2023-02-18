@@ -58,7 +58,11 @@ struct rte_memseg {
 	uint32_t nchannel;          /**< Number of channels. */
 	uint32_t nrank;             /**< Number of ranks. */
 	uint32_t flags;             /**< Memseg-specific flags */
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 } __rte_packed;
+#else
+};
+#endif
 
 /**
  * memseg list is a special case as we need to store a bunch of other data
