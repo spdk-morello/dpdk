@@ -51,7 +51,7 @@ static struct rte_tailq_elem rte_ipsec_sad_tailq = {
 };
 EAL_REGISTER_TAILQ(rte_ipsec_sad_tailq)
 
-#define SET_BIT(ptr, bit)	(void *)((uintptr_t)(ptr) | (uintptr_t)(bit))
+#define SET_BIT(ptr, bit)	(void *)((uintptr_t)(ptr) | (size_t)(bit))
 #define CLEAR_BIT(ptr, bit)	(void *)((uintptr_t)(ptr) & ~(uintptr_t)(bit))
 #define GET_BIT(ptr, bit)	(void *)((uintptr_t)(ptr) & (uintptr_t)(bit))
 
