@@ -61,7 +61,11 @@ struct rte_config {
 	 * DPDK instances
 	 */
 	struct rte_mem_config *mem_config;
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 } __rte_packed;
+#else
+};
+#endif
 
 /**
  * Get the global configuration structure.
