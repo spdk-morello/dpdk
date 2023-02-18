@@ -1725,7 +1725,11 @@ struct sym_crypto_data {
 	/** Private data size to store cipher iv / aad. */
 	uint8_t iv_aad_data[32];
 
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 } __rte_packed;
+#else
+};
+#endif
 
 static int
 sym_crypto_cfg_check(struct rte_table_action_sym_crypto_config *cfg)
