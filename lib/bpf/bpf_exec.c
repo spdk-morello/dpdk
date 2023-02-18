@@ -46,7 +46,7 @@
 		RTE_BPF_LOG(ERR, \
 			"%s(%p): division by 0 at pc: %#zx;\n", \
 			__func__, bpf, \
-			(uintptr_t)(ins) - (uintptr_t)(bpf)->prm.ins); \
+			(size_t)((uintptr_t)(ins) - (uintptr_t)(bpf)->prm.ins)); \
 		return 0; \
 	} \
 } while (0)
@@ -139,7 +139,7 @@ bpf_ld_mbuf(const struct rte_bpf *bpf, uint64_t reg[EBPF_REG_NUM],
 		RTE_BPF_LOG(DEBUG, "%s(bpf=%p, mbuf=%p, ofs=%u, len=%u): "
 			"load beyond packet boundary at pc: %#zx;\n",
 			__func__, bpf, mb, off, len,
-			(uintptr_t)(ins) - (uintptr_t)(bpf)->prm.ins);
+			(size_t)((uintptr_t)(ins) - (uintptr_t)(bpf)->prm.ins));
 	return p;
 }
 
@@ -465,7 +465,7 @@ bpf_exec(const struct rte_bpf *bpf, uint64_t reg[EBPF_REG_NUM])
 			RTE_BPF_LOG(ERR,
 				"%s(%p): invalid opcode %#x at pc: %#zx;\n",
 				__func__, bpf, ins->code,
-				(uintptr_t)ins - (uintptr_t)bpf->prm.ins);
+				(size_t)((uintptr_t)ins - (uintptr_t)bpf->prm.ins));
 			return 0;
 		}
 	}
