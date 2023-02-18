@@ -63,7 +63,11 @@ struct rte_memzone {
 	int32_t socket_id;                /**< NUMA socket ID. */
 
 	uint32_t flags;                   /**< Characteristics of this memzone. */
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 } __rte_packed;
+#else
+};
+#endif
 
 /**
  * Reserve a portion of physical memory.
