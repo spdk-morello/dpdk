@@ -116,7 +116,11 @@ enum {
 
 
 /* FPGA 5GNR FEC DMA Encoding Request Descriptor */
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+struct __rte_packed __attribute__((annotate("underaligned_capability"))) fpga_dma_enc_desc {
+#else
 struct __rte_packed fpga_dma_enc_desc {
+#endif
 	uint32_t done:1,
 		rsrvd0:7,
 		error:4,
@@ -158,7 +162,11 @@ struct __rte_packed fpga_dma_enc_desc {
 
 
 /* FPGA 5GNR DPC FEC DMA Decoding Request Descriptor */
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+struct __rte_packed __attribute__((annotate("underaligned_capability"))) fpga_dma_dec_desc {
+#else
 struct __rte_packed fpga_dma_dec_desc {
+#endif
 	uint32_t done:1,
 		iter:5,
 		et_pass:1,
