@@ -175,12 +175,20 @@ struct idpf_dma_mem {
 	u64 pa;
 	u32 size;
 	const void *zone;
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 } __rte_packed;
+#else
+};
+#endif
 
 struct idpf_virt_mem {
 	void *va;
 	u32 size;
+#ifndef RTE_ARCH_ARM_PURECAP_HACK
 } __rte_packed;
+#else
+};
+#endif
 
 #define idpf_malloc(h, s)	rte_zmalloc(NULL, s, 0)
 #define idpf_calloc(h, c, s)	rte_zmalloc(NULL, (c) * (s), 0)
