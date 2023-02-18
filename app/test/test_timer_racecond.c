@@ -45,8 +45,8 @@ timer_cb(struct rte_timer *tim, void *arg __rte_unused)
 	if (tim == &timer[0])
 		rte_log(RTE_LOG_DEBUG, timer_logtype_test,
 			"------------------------------------------------\n");
-	rte_log(RTE_LOG_DEBUG, timer_logtype_test, "%s: core %u timer %"
-		PRIuPTR "\n", __func__, rte_lcore_id(), tim - timer);
+	rte_log(RTE_LOG_DEBUG, timer_logtype_test, "%s: core %u timer %zu\n",
+		__func__, rte_lcore_id(), (size_t)(tim - timer));
 	(void)reload_timer(tim);
 }
 
@@ -67,8 +67,8 @@ reload_timer(struct rte_timer *tim)
 	ret = rte_timer_reset(tim, ticks, PERIODICAL, main_lcore, timer_cb, NULL);
 	if (ret != 0) {
 		rte_log(RTE_LOG_DEBUG, timer_logtype_test,
-			"- core %u failed to reset timer %" PRIuPTR " (OK)\n",
-			rte_lcore_id(), tim - timer);
+			"- core %u failed to reset timer %zd (OK)\n",
+			rte_lcore_id(), (size_t)(tim - timer));
 		RTE_PER_LCORE(n_reset_collisions) += 1;
 	}
 	return ret;
