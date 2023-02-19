@@ -69,7 +69,7 @@
 #define WQ_NUM_PAGES(num_wqs)	\
 	(ALIGN((u32)num_wqs, WQS_BLOCKS_PER_PAGE) / WQS_BLOCKS_PER_PAGE)
 
-#define	WQ_WQE_ADDR(wq, idx) ((void *)((u64)((wq)->queue_buf_vaddr) + \
+#define	WQ_WQE_ADDR(wq, idx) ((void *)((uintptr_t)((wq)->queue_buf_vaddr) + \
 			      ((idx) << (wq)->wqebb_shift)))
 
 #define	WQ_PAGE_PFN_SHIFT			12
@@ -93,7 +93,7 @@ struct hinic_sge {
 /* Working Queue */
 struct hinic_wq {
 	/* The addresses are 64 bit in the HW */
-	u64     queue_buf_vaddr;
+	uintptr_t     queue_buf_vaddr;
 
 	u16		q_depth;
 	u16		mask;
@@ -109,7 +109,7 @@ struct hinic_wq {
 
 	u32		wq_buf_size;
 
-	u32		rsvd[5];
+	u8		rsvd[28 - sizeof(uintptr_t)];
 };
 
 void hinic_wq_wqe_pg_clear(struct hinic_wq *wq);

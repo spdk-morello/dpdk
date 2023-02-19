@@ -119,7 +119,7 @@ struct hinic_txq {
 
 	/* cacheline1 */
 	struct hinic_txq_stats txq_stats;
-	u64 sq_head_addr;
+	uintptr_t sq_head_addr;
 	u64 sq_bot_sge_addr;
 };
 

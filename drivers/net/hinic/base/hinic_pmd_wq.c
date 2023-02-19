@@ -20,7 +20,7 @@ static int alloc_wq_pages(struct hinic_hwdev *hwdev, struct hinic_wq *wq,
 {
 	dma_addr_t dma_addr = 0;
 
-	wq->queue_buf_vaddr = (u64)(u64 *)
+	wq->queue_buf_vaddr = (uintptr_t)(u64 *)
 		dma_zalloc_coherent_aligned256k(hwdev, wq->wq_buf_size,
 						&dma_addr, socket_id);
 	if (!wq->queue_buf_vaddr) {
