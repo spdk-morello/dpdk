@@ -1035,7 +1035,7 @@ efd_compute_update(struct rte_efd_table * const table,
 		if (rte_ring_sc_dequeue(table->free_slots, &slot_id) != 0)
 			return RTE_EFD_UPDATE_FAILED;
 
-		new_k = RTE_PTR_ADD(table->keys, (uintptr_t) slot_id *
+		new_k = RTE_PTR_ADD(table->keys, (size_t) slot_id *
 					table->key_len);
 		rte_prefetch0(new_k);
 		new_idx = (uint32_t) ((uintptr_t) slot_id);
