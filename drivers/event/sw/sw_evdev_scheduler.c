@@ -400,10 +400,10 @@ __pull_port_lb(struct sw_evdev *sw, uint32_t port_id, int allow_reorder)
 				/* set reorder ready if an ordered QID */
 				uintptr_t rob_ptr =
 					(uintptr_t)hist_entry->rob_entry;
-				const uintptr_t valid = (rob_ptr != 0);
+				const int valid = (rob_ptr != 0);
 				needs_reorder = valid;
-				rob_ptr |=
-					((valid - 1) & (uintptr_t)&dummy_rob);
+				if (!valid)
+					rob_ptr = (uintptr_t)&dummy_rob;
 				struct reorder_buffer_entry *tmp_rob_ptr =
 					(struct reorder_buffer_entry *)rob_ptr;
 				tmp_rob_ptr->ready = eop * needs_reorder;
