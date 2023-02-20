@@ -97,11 +97,19 @@ CC=cc meson -Dexamples=helloworld -Denable_kmods=true build-pure
 ninja -j4 -C build-pure
 ~~~
 
+To reduce the number of warnings, specify -Wno-cheri-inefficient:
+
+~~~{.sh}
+export PKG_CONFIG_PATH=`pwd`/config/purecap
+CC=cc CFLAGS=-Wno-cheri-inefficient meson -Dexamples=helloworld -Denable_kmods=true build-pure
+ninja -j4 -C build-pure
+~~~
+
 For a purecap debug build:
 
 ~~~{.sh}
 export PKG_CONFIG_PATH=`pwd`/config/purecap
-CC=cc meson -Dexamples=helloworld -Denable_kmods=true --buildtype=debug build-pure-debug
+CC=cc CFLAGS=-Wno-cheri-inefficient meson -Dexamples=helloworld -Denable_kmods=true --buildtype=debug build-pure-debug
 ninja -j4 -C build-pure-debug
 ~~~
 
