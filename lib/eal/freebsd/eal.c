@@ -653,6 +653,16 @@ rte_eal_init(int argc, char **argv)
 		return -1;
 	}
 
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+	/* Currently can't store tags in shared regions */
+	if (internal_conf->in_memory == 0) {
+		RTE_LOG(WARNING, EAL, "Multi-process support is requested, "
+			"but not available.\n");
+		internal_conf->in_memory = 1;
+		internal_conf->no_shconf = 1;
+	}
+#endif
+
 	if (rte_config_init() < 0) {
 		rte_eal_init_alert("Cannot init config");
 		return -1;
