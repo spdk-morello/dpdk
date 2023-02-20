@@ -68,7 +68,12 @@ eal_mem_reserve(void *requested_addr, size_t size, int flags)
 	if (flags & EAL_RESERVE_FORCE_ADDRESS)
 		sys_flags |= MAP_FIXED;
 
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+	void *addr = (uint64_t)(uintptr_t)requested_addr;
+	return mem_map(addr, size, PROT_NONE | PROT_MAX(PROT_READ|PROT_WRITE|PROT_EXEC), sys_flags, -1, 0);
+#else
 	return mem_map(requested_addr, size, PROT_NONE, sys_flags, -1, 0);
+#endif
 }
 
 void
