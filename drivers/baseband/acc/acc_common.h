@@ -381,7 +381,12 @@ union acc_dma_rsp_desc {
 };
 
 /* DMA Request Descriptor */
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+struct __rte_packed __attribute__((annotate("underaligned_capability")))
+	__attribute__((aligned(16))) acc_dma_req_desc {
+#else
 struct __rte_packed acc_dma_req_desc {
+#endif
 	union {
 		struct{
 			uint32_t type:4,
@@ -413,6 +418,10 @@ struct __rte_packed acc_dma_req_desc {
 	};
 	struct acc_dma_triplet data_ptrs[ACC_DMA_MAX_NUM_POINTERS];
 
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+	uint64_t pad0;
+#endif
+
 	/* Virtual addresses used to retrieve SW context info */
 	union {
 		void *op_addr;
@@ -440,7 +449,11 @@ struct __rte_packed acc_dma_req_desc {
 				cbs_in_tb:8,
 				pad4 : 16;
 		};
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+		uint64_t pad3[ACC_DMA_DESC_PADDINGS-1]; /* pad to 64 bits */
+#else
 		uint64_t pad3[ACC_DMA_DESC_PADDINGS]; /* pad to 64 bits */
+#endif
 	};
 };
 
@@ -482,6 +495,15 @@ union acc_info_ring_data {
 	};
 } __rte_packed;
 
+#ifdef RTE_ARCH_ARM_PURECAP_HACK
+struct acc_pad_ptr {
+	void *op_addr;
+};
+
+struct acc_ptrs {
+	struct acc_pad_ptr ptr[ACC_COMPANION_PTRS];
+};
+#else
 struct __rte_packed acc_pad_ptr {
 	void *op_addr;
 	uint64_t pad1;  /* pad to 64 bits */
@@ -490,6 +512,7 @@ struct __rte_packed acc_pad_ptr {
 struct __rte_packed acc_ptrs {
 	struct acc_pad_ptr ptr[ACC_COMPANION_PTRS];
 };
+#endif
 
 /* Union describing Info Ring entry */
 union acc_harq_layout_data {
