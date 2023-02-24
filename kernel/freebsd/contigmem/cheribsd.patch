@@ -1,0 +1,42 @@
+diff --git a/share/mk/bsd.sysdir.mk b/share/mk/bsd.sysdir.mk
+index 665905e1d53..2205f2395f2 100644
+--- a/share/mk/bsd.sysdir.mk
++++ b/share/mk/bsd.sysdir.mk
+@@ -14,3 +14,5 @@ SYSDIR=	${_dir:tA}
+     !exists(${SYSDIR}/conf/kmod.mk)
+ .error Unable to locate the kernel source tree. Set SYSDIR to override.
+ .endif
++
++ZFSTOP=${SYSDIR}/contrib/subrepo-openzfs
+diff --git a/sys/vm/vm_mmap.c b/sys/vm/vm_mmap.c
+index eb69c91c04e..6ecc5cc3eb3 100644
+--- a/sys/vm/vm_mmap.c
++++ b/sys/vm/vm_mmap.c
+@@ -1916,6 +1916,9 @@ vm_mmap_cdev(struct thread *td, vm_size_t objsize, vm_prot_t *protp,
+ 	if (error != 0)
+ 		return (error);
+ #endif
++	*protp = prot = VM_PROT_ADD_CAP(*protp);
++	*maxprotp = VM_PROT_ADD_CAP(*maxprotp);
++
+ 	/*
+ 	 * First, try d_mmap_single().  If that is not implemented
+ 	 * (returns ENODEV), fall back to using the device pager.
+@@ -1926,12 +1929,16 @@ vm_mmap_cdev(struct thread *td, vm_size_t objsize, vm_prot_t *protp,
+ 	 * XXX assumes VM_PROT_* == PROT_*
+ 	 */
+ 	error = dsw->d_mmap_single(cdev, foff, objsize, objp, (int)prot);
+-	if (error != ENODEV)
++	if (error != ENODEV) {
++		if (error == 0)
++			vm_object_set_flag(*objp, OBJ_HASCAP);
+ 		return (error);
++	}
+ 	obj = vm_pager_allocate(OBJT_DEVICE, cdev, objsize, prot, *foff,
+ 	    td->td_ucred);
+ 	if (obj == NULL)
+ 		return (EINVAL);
++	vm_object_set_flag(obj, OBJ_HASCAP);
+ 	*objp = obj;
+ 	*flagsp = flags;
+ 	return (0);
