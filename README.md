@@ -44,6 +44,10 @@ As a temporary workaround, run the following after installing the source:
 echo 'ZFSTOP=${SYSDIR}/contrib/subrepo-openzfs' | sudo tee -a /usr/share/mk/bsd.sysdir.mk
 ~~~
 
+Memory allocated with the contigmem kernel module does not support storing capabilities.
+To work around this, the temporary hack in kernel/freebsd/contigmem/cheribsd.patch can be
+applied and the kernel rebuilt.
+
 ## Kernel Modules
 
 DPDK kernel modules are required to manage the allocation of physically contiguous memory and for direct access to PCI devices.
