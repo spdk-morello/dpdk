@@ -14,8 +14,8 @@ visudo
 To perform a native build on CheriBSD, the following packages are required:
 
 ~~~{.sh}
-sudo pkg64 install meson ninja python llvm llvm-base py39-pip gdb-cheri
-sudo pkg64c install git libelf
+sudo pkg64 install -y meson ninja python llvm llvm-base py39-pip gdb-cheri
+sudo pkg64c install -y git libelf
 pip install pyelftools
 ~~~
 
@@ -46,7 +46,14 @@ echo 'ZFSTOP=${SYSDIR}/contrib/subrepo-openzfs' | sudo tee -a /usr/share/mk/bsd.
 
 Memory allocated with the contigmem kernel module does not support storing capabilities.
 To work around this, the temporary hack in kernel/freebsd/contigmem/cheribsd.patch can be
-applied and the kernel rebuilt.
+applied:
+
+~~~{.sh}
+sudo patch -d /usr/src < kernel/freebsd/contigmem/cheribsd.patch
+~~~
+
+The kernel can then be rebuilt and installed following the instructions in
+https://github.com/CTSRD-CHERI/cheripedia/wiki/HOWTO:-Build-CheriBSD-natively-on-Morello.
 
 ## Kernel Modules
 
