@@ -1,4 +1,4 @@
-# SPDK-Morello Maintainers
+# DPDK-Morello Maintainers
 
 The intention of this file is to provide a set of names that can be relied upon
 for help in patch reviews and questions.
@@ -11,4 +11,4 @@ Descriptions of section entries:
 ## Main Branch
 
     M: Nick Connolly <info@rtegrity.com>
-    T: git://github.com/spdk-morello/spdk
+    T: git://github.com/spdk-morello/dpdk
