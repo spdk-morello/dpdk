@@ -157,6 +157,6 @@ RTE_ARCH_ARM_PURECAP_HACK
 
 ## Core Maintainers
 
-The [core maintainers](https://github.com/wpdk/wpdk/blob/master/MAINTAINERS.md) primary responsibility is to provide technical oversight for the SPDK-Morello project.
+The [core maintainers](https://github.com/spdk-morello/dpdk/blob/main/MAINTAINERS.md) primary responsibility is to provide technical oversight for the DPDK-Morello project.
 The current list includes:
-* [Nick Connolly](https://github.com/nconnolly1), [rtegrity](https://rtegrity.com/)
+* [Nick Connolly](https://github.com/nconnolly1), [rtegrity](https://rtegrity.com/)s
