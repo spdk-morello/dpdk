@@ -78,7 +78,11 @@ malloc_heap_free_pages(void *aligned_start, size_t aligned_len);
 struct malloc_elem *
 alloc_pages_on_heap(struct malloc_heap *heap, uint64_t pg_sz, size_t elt_size,
 		int socket, unsigned int flags, size_t align, size_t bound,
+#ifdef C18N_ARGS_FIXED
 		bool contig, struct rte_memseg **ms, int n_segs);
+#else
+		...);
+#endif
 
 void
 rollback_expand_heap(struct rte_memseg **ms, int n_segs,

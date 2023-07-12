@@ -952,9 +952,20 @@ struct rte_mempool *
 rte_mempool_create(const char *name, unsigned n, unsigned elt_size,
 	unsigned cache_size, unsigned private_data_size,
 	rte_mempool_ctor_t *mp_init, void *mp_init_arg,
-	rte_mempool_obj_cb_t *obj_init, void *obj_init_arg,
+	rte_mempool_obj_cb_t *obj_init,
+#ifdef C18N_ARGS_FIXED
+	void *obj_init_arg,
 	int socket_id, unsigned flags)
 {
+#else
+	...)
+{
+	va_list ap;
+	va_start(ap, obj_init);
+	void *obj_init_arg = va_arg(ap, void *);
+	int socket_id = va_arg(ap, int);
+	unsigned flags = va_arg(ap, unsigned);	
+#endif
 	int ret;
 	struct rte_mempool *mp;
 

@@ -293,8 +293,19 @@ rollback_expand_heap(struct rte_memseg **ms, int n_segs,
 struct malloc_elem *
 alloc_pages_on_heap(struct malloc_heap *heap, uint64_t pg_sz, size_t elt_size,
 		int socket, unsigned int flags, size_t align, size_t bound,
+#ifdef C18N_ARGS_FIXED
 		bool contig, struct rte_memseg **ms, int n_segs)
 {
+#else
+		...)
+{
+	va_list ap;
+	va_start(ap, bound);
+	bool contig = va_arg(ap, int);
+	struct rte_memseg **ms = va_arg(ap, struct rte_memseg **);
+	int n_segs = va_arg(ap, int);
+	va_end(ap);
+#endif
 	struct rte_mem_config *mcfg = rte_eal_get_configuration()->mem_config;
 	struct rte_memseg_list *msl;
 	struct malloc_elem *elem = NULL;
