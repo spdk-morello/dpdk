@@ -10,12 +10,12 @@ rte_hash_k16_cmp_eq(const void *key1, const void *key2,
 	uint64_t x0, x1, y0, y1;
 
 	asm volatile(
-		"ldp %x[x1], %x[x0], [%x[p1]]"
+		"ldp %x[x1], %x[x0], [%C[p1]]"
 		: [x1]"=r"(x1), [x0]"=r"(x0)
 		: [p1]"r"(key1)
 		);
 	asm volatile(
-		"ldp %x[y1], %x[y0], [%x[p2]]"
+		"ldp %x[y1], %x[y0], [%C[p2]]"
 		: [y1]"=r"(y1), [y0]"=r"(y0)
 		: [p2]"r"(key2)
 		);
