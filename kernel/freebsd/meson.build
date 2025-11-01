@@ -16,7 +16,7 @@ kmod_cflags = ['-I' + dpdk_build_root,
 kmod_arch = 'MACHINE_ARCH_NULL='
 if dpdk_conf.has('RTE_ARCH_ARM_MORELLO')
     if dpdk_conf.has('RTE_ARCH_ARM_PURECAP')
-        kmod_arch = 'MACHINE_ARCH=aarch64c'
+        kmod_arch = 'MACHINE_ARCH=aarch64cb'
     else
         kmod_arch = 'MACHINE_ARCH=aarch64'
     endif
