@@ -127,6 +127,10 @@ rte_eal_hugepage_init(void)
 			/* first, check if this segment is IOVA-adjacent to
 			 * the previous one.
 			 */
+#ifdef C18N_NO_CONTIGMEM_HACK
+			physaddr = prev_end;
+			(void)sysctl_size, (void)physaddr_str, (void)error;
+#else
 			snprintf(physaddr_str, sizeof(physaddr_str),
 					"hw.contigmem.physaddr.%d", j);
 			error = sysctlbyname(physaddr_str, &physaddr,
@@ -136,7 +140,7 @@ rte_eal_hugepage_init(void)
 						"from %s\n", j, hpi->hugedir);
 				return -1;
 			}
-
+#endif
 			is_adjacent = prev_end != 0 && physaddr == prev_end;
 			prev_end = physaddr + hpi->hugepage_sz;
 
@@ -187,8 +191,12 @@ rte_eal_hugepage_init(void)
 			 * MAP_FIXED here is safe.
 			 */
 			addr = mmap(addr, page_sz, PROT_READ|PROT_WRITE,
+#ifdef C18N_NO_CONTIGMEM_HACK
+					MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1,
+#else
 					MAP_SHARED | MAP_FIXED,
 					hpi->lock_descriptor,
+#endif
 					j * EAL_PAGE_SIZE);
 			if (addr == MAP_FAILED) {
 				RTE_LOG(ERR, EAL, "Failed to mmap buffer %u from %s\n",

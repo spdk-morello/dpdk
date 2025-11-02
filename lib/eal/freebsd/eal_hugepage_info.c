@@ -14,7 +14,11 @@
 #include "eal_internal_cfg.h"
 #include "eal_filesystem.h"
 
+#ifdef C18N_NO_CONTIGMEM_HACK
+#define CONTIGMEM_DEV "/dev/zero"
+#else
 #define CONTIGMEM_DEV "/dev/contigmem"
+#endif
 
 /*
  * Uses mmap to create a shared memory area for storage of data
@@ -67,6 +71,13 @@ eal_hugepage_info_init(void)
 
 	internal_conf->num_hugepage_sizes = 1;
 
+#ifdef C18N_NO_CONTIGMEM_HACK
+	num_buffers = 1;
+	buffer_size = 512;
+	buffer_size *= 1024ULL;
+	buffer_size *= 1024ULL;
+	(void)sysctl_size, (void)error;
+#else
 	sysctl_size = sizeof(num_buffers);
 	error = sysctlbyname("hw.contigmem.num_buffers", &num_buffers,
 			&sysctl_size, NULL, 0);
@@ -84,6 +95,7 @@ eal_hugepage_info_init(void)
 		RTE_LOG(ERR, EAL, "could not read sysctl hw.contigmem.buffer_size\n");
 		return -1;
 	}
+#endif
 
 	fd = open(CONTIGMEM_DEV, O_RDWR);
 	if (fd < 0) {
